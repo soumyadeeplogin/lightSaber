@@ -18,10 +18,11 @@ public class DataHandler {
 
     public Mono<ServerResponse> data(ServerRequest request) {
         Mono<String> json = request.bodyToMono(String.class);
-        return  ServerResponse.ok().body(
-                (Object) json.map(this::jsonTransform).map(d -> Mono.just(processData.processRawEvent(d,false)).flatMap(dd -> dd))
-                ,JSONObject.class
-        );
+//        return  ServerResponse.ok().body(
+//                (Object) json.map(this::jsonTransform).map(d -> Mono.just(processData.processRawEvent(d,false)).flatMap(dd -> dd))
+//                ,JSONObject.class
+//        );
+        return  ServerResponse.ok().body(json.map(this::jsonTransform).map(d -> processData.processRawEvent(d,false)),JSONObject.class);
     }
 
     private JSONObject jsonTransform(String d) {

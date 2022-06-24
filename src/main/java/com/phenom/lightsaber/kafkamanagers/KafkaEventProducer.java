@@ -20,10 +20,11 @@ public class KafkaEventProducer {
 
 
 
-    public Mono<JSONObject> sendMessage(String message, String topicName, boolean batch) {
+    public JSONObject sendMessage(String message, String topicName, boolean batch) {
 
         ListenableFuture<SendResult<String, String>> future = batch ? batchKafkaTemplate.send(topicName, message) : kafkaTemplate.send(topicName, message);
-        return Mono.create(sink -> future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
+//        return Mono.create(sink -> future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
+        future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
             public void onSuccess(SendResult<String, String> result) {
                 JSONObject ackedBy = new JSONObject();
@@ -44,16 +45,17 @@ public class KafkaEventProducer {
                 System.out.println(response);
                 System.out.println("Sent message=[" + message +
                         "] with offset=[" + result.getRecordMetadata().offset() + "]");
-                sink.success(response);
+//                sink.success(response);
             }
 
             @Override
             public void onFailure(Throwable ex) {
                 System.out.println("Unable to send message=["
                         + message + "] due to : " + ex.getMessage());
-                sink.error(ex);
+//                sink.error(ex);
+
             }
-        }));
-//        return Mono.empty();
+        });
+        return new JSONObject();
     }
 }

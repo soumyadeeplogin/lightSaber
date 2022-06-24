@@ -18,7 +18,9 @@ public class BatchDataHandler {
 
     public Mono<ServerResponse> batchData(ServerRequest request) {
         Mono<String> json = request.bodyToMono(String.class);
-        return  ServerResponse.ok().body(json.map(this::jsonTransform).map(d -> processData.processRawEvent(d,true).block()),JSONObject.class);
+        return ServerResponse.ok().build();
+//        return  ServerResponse.ok().body(json.map(this::jsonTransform).map(d -> processData.processRawEvent(d,true)),JSONObject.class);
+//        return  ServerResponse.ok().body(json.map(this::jsonTransform).map(d -> processData.processRawEvent(d,true).block()),JSONObject.class);
     }
 
     private JSONObject jsonTransform(String d) {
