@@ -44,6 +44,7 @@ public class KafkaEventProducer {
                 System.out.println(response);
                 System.out.println("Sent message=[" + message +
                         "] with offset=[" + result.getRecordMetadata().offset() + "]");
+
                 sink.success(response);
             }
 
