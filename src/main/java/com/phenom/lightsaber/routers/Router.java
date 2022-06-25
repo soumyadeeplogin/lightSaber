@@ -19,7 +19,7 @@ public class Router {
     public RouterFunction<ServerResponse> routes(DataHandler dataHandler, BatchDataHandler batchDataHandler, StatusHandler statusHandler) {
 
         return RouterFunctions
-                .route(POST("/data").and(accept(MediaType.APPLICATION_JSON)), dataHandler::data)
+                .route(POST("/data").and(accept(MediaType.APPLICATION_JSON)).and(contentType(MediaType.APPLICATION_JSON)), dataHandler::data)
                 .andRoute(POST("/batch-data").and(accept(MediaType.APPLICATION_JSON)), batchDataHandler::batchData)
                 .andRoute(GET("/status").and(accept(MediaType.APPLICATION_JSON)), statusHandler::status);
     }
